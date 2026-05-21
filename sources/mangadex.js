@@ -7,8 +7,9 @@ const source = {
 
   searchRequest(query, page, lang) {
     const offset = (page - 1) * 20;
+    const titleParam = query ? `&title=${encodeURIComponent(query)}` : '';
     return {
-      url: `https://api.mangadex.org/manga?title=${encodeURIComponent(query)}&limit=20&offset=${offset}&translatedLanguage[]=${lang}&includes[]=cover_art`,
+      url: `https://api.mangadex.org/manga?limit=20&offset=${offset}${titleParam}&translatedLanguage[]=${lang}&includes[]=cover_art`,
     };
   },
   detailRequest(mangaId) {
