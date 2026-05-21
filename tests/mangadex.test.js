@@ -14,6 +14,8 @@ function loadSource(name) {
 }
 
 const source = loadSource('mangadex');
+const fixture = name =>
+  fs.readFileSync(path.join(__dirname, `fixtures/${name}`), 'utf8');
 
 describe('shape', () => {
   test('has required metadata fields', () => {
@@ -69,5 +71,47 @@ describe('request builders', () => {
   test('pagesRequest uses at-home endpoint', () => {
     const req = source.pagesRequest('chapter-id-xyz');
     expect(req.url).toBe('https://api.mangadex.org/at-home/server/chapter-id-xyz');
+  });
+});
+
+describe('parsers', () => {
+  test('parseSearch returns array of { id, title, coverUrl }', () => {
+    const results = JSON.parse(source.parseSearch(fixture('mangadex-search.json')));
+    expect(Array.isArray(results)).toBe(true);
+    expect(results).toHaveLength(1);
+    expect(results[0].id).toBe('32d76d19-8a05-4db0-a917-d6b97d3b5ea7');
+    expect(results[0].title).toBe('Naruto');
+    expect(results[0].coverUrl).toContain('32d76d19-8a05-4db0-a917-d6b97d3b5ea7');
+    expect(results[0].coverUrl).toContain('cover.jpg');
+  });
+
+  test('parseDetail returns { id, title, synopsis, author, status, tags }', () => {
+    const detail = JSON.parse(source.parseDetail(fixture('mangadex-detail.json')));
+    expect(detail.id).toBe('32d76d19-8a05-4db0-a917-d6b97d3b5ea7');
+    expect(detail.title).toBe('Naruto');
+    expect(detail.synopsis).toBe('A story about a ninja.');
+    expect(detail.author).toBe('Masashi Kishimoto');
+    expect(detail.status).toBe('completed');
+    expect(Array.isArray(detail.tags)).toBe(true);
+    expect(detail.tags).toContain('Action');
+  });
+
+  test('parseChapters returns array of { id, title, number, lang, date }', () => {
+    const chapters = JSON.parse(source.parseChapters(fixture('mangadex-chapters.json')));
+    expect(Array.isArray(chapters)).toBe(true);
+    expect(chapters).toHaveLength(1);
+    expect(chapters[0].id).toBe('ch-001');
+    expect(chapters[0].title).toBe('Enter: Naruto Uzumaki!');
+    expect(chapters[0].number).toBe('1');
+    expect(chapters[0].lang).toBe('en');
+    expect(chapters[0].date).toBe('2004-10-01T00:00:00+00:00');
+  });
+
+  test('parsePages assembles full image URLs from baseUrl + hash + filename', () => {
+    const urls = JSON.parse(source.parsePages(fixture('mangadex-pages.json')));
+    expect(Array.isArray(urls)).toBe(true);
+    expect(urls).toHaveLength(2);
+    expect(urls[0]).toBe('https://uploads.mangadex.org/data/abc123def456/page-1.jpg');
+    expect(urls[1]).toBe('https://uploads.mangadex.org/data/abc123def456/page-2.jpg');
   });
 });
