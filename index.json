@@ -1,0 +1,13 @@
+{
+  "name": "Honbako Sources",
+  "sources": [
+    {
+      "id": "mangadex",
+      "name": "MangaDex",
+      "langs": ["en"],
+      "version": "1.0.0",
+      "nsfw": false,
+      "url": "https://manganohonbako.github.io/honbako-sources/sources/mangadex.js"
+    }
+  ]
+}
