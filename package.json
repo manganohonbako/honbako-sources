@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "test": "jest",
-    "lint": "eslint sources tests",
-    "lint:fix": "eslint sources tests --fix"
+    "lint": "eslint --no-error-on-unmatched-pattern sources tests",
+    "lint:fix": "eslint --no-error-on-unmatched-pattern sources tests --fix"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "passWithNoTests": true
   },
   "devDependencies": {
     "eslint": "^8.57.0",

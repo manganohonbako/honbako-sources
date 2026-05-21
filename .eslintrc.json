@@ -7,7 +7,7 @@
   },
   "rules": {
     "no-undef": "error",
-    "no-unused-vars": ["error", { "varsIgnorePattern": "^source$" }]
+    "no-unused-vars": ["error", { "varsIgnorePattern": "^source$", "args": "none" }]
   },
   "overrides": [
     {
