@@ -10,12 +10,6 @@ In the app: **Settings → Repositories → Add** and paste:
 https://manganohonbako.github.io/honbako-sources/index.json
 ```
 
-## Sources
-
-| Source | Languages | NSFW |
-|--------|-----------|------|
-| MangaDex | en | No |
-
 ## Contributing a new source
 
 1. Copy `sources/mangadex.js` as a starting point
