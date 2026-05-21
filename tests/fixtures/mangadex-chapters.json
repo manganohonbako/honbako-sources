@@ -1,0 +1,15 @@
+{
+  "result": "ok",
+  "data": [
+    {
+      "id": "ch-001",
+      "type": "chapter",
+      "attributes": {
+        "title": "Enter: Naruto Uzumaki!",
+        "chapter": "1",
+        "translatedLanguage": "en",
+        "publishAt": "2004-10-01T00:00:00+00:00"
+      }
+    }
+  ]
+}
