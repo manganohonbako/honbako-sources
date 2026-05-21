@@ -54,6 +54,13 @@ describe('request builders', () => {
     expect(req.url).toContain('offset=0');
   });
 
+  test('searchRequest omits title param when query is empty', () => {
+    const req = source.searchRequest('', 1, 'en');
+    expect(req.url).not.toContain('title=');
+    expect(req.url).toContain('https://api.mangadex.org/manga');
+    expect(req.url).toContain('limit=20');
+  });
+
   test('detailRequest includes author and cover_art', () => {
     const req = source.detailRequest('manga-id-abc');
     expect(req.url).toBe(
