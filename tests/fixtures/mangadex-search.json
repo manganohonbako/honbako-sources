@@ -1,0 +1,23 @@
+{
+  "result": "ok",
+  "response": "collection",
+  "data": [
+    {
+      "id": "32d76d19-8a05-4db0-a917-d6b97d3b5ea7",
+      "type": "manga",
+      "attributes": {
+        "title": { "en": "Naruto" },
+        "description": { "en": "A story about a ninja." },
+        "status": "completed",
+        "tags": []
+      },
+      "relationships": [
+        {
+          "id": "cover-rel-id",
+          "type": "cover_art",
+          "attributes": { "fileName": "cover.jpg" }
+        }
+      ]
+    }
+  ]
+}
