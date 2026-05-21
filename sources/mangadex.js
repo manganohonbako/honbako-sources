@@ -1,7 +1,7 @@
 const source = {
   id: 'mangadex',
   name: 'MangaDex',
-  version: '1.0.0',
+  version: '1.0.1',
   langs: ['en'],
   nsfw: false,
 
