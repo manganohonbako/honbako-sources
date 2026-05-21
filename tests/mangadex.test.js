@@ -45,7 +45,7 @@ describe('request builders', () => {
     expect(req.url).toContain('title=naruto%20uzumaki');
     expect(req.url).toContain('offset=20');
     expect(req.url).toContain('limit=20');
-    expect(req.url).toContain('translatedLanguage[]=en');
+    expect(req.url).toContain('availableTranslatedLanguage[]=en');
     expect(req.url).toContain('includes[]=cover_art');
   });
 
