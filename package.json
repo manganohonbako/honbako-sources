@@ -1,0 +1,17 @@
+{
+  "name": "honbako-sources",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "jest",
+    "lint": "eslint sources tests",
+    "lint:fix": "eslint sources tests --fix"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.0",
+    "jest": "^29.7.0"
+  }
+}
