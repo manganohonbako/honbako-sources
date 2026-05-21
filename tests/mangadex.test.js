@@ -46,6 +46,7 @@ describe('request builders', () => {
     expect(req.url).toContain('offset=20');
     expect(req.url).toContain('limit=20');
     expect(req.url).toContain('translatedLanguage[]=en');
+    expect(req.url).toContain('includes[]=cover_art');
   });
 
   test('searchRequest page 1 has offset 0', () => {
@@ -78,11 +79,18 @@ describe('parsers', () => {
   test('parseSearch returns array of { id, title, coverUrl }', () => {
     const results = JSON.parse(source.parseSearch(fixture('mangadex-search.json')));
     expect(Array.isArray(results)).toBe(true);
-    expect(results).toHaveLength(1);
+    expect(results).toHaveLength(2);
     expect(results[0].id).toBe('32d76d19-8a05-4db0-a917-d6b97d3b5ea7');
     expect(results[0].title).toBe('Naruto');
     expect(results[0].coverUrl).toContain('32d76d19-8a05-4db0-a917-d6b97d3b5ea7');
     expect(results[0].coverUrl).toContain('cover.jpg');
+  });
+
+  test('parseSearch sets coverUrl to null when cover_art relationship is absent', () => {
+    const results = JSON.parse(source.parseSearch(fixture('mangadex-search.json')));
+    expect(results).toHaveLength(2);
+    expect(results[1].id).toBe('no-cover-manga-id');
+    expect(results[1].coverUrl).toBeNull();
   });
 
   test('parseDetail returns { id, title, synopsis, author, status, tags }', () => {

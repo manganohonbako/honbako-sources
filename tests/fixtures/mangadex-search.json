@@ -18,6 +18,17 @@
           "attributes": { "fileName": "cover.jpg" }
         }
       ]
+    },
+    {
+      "id": "no-cover-manga-id",
+      "type": "manga",
+      "attributes": {
+        "title": { "en": "No Cover Manga" },
+        "description": { "en": "A manga without a cover." },
+        "status": "ongoing",
+        "tags": []
+      },
+      "relationships": []
     }
   ]
 }

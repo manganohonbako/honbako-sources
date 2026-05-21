@@ -8,7 +8,7 @@ const source = {
   searchRequest(query, page, lang) {
     const offset = (page - 1) * 20;
     return {
-      url: `https://api.mangadex.org/manga?title=${encodeURIComponent(query)}&limit=20&offset=${offset}&translatedLanguage[]=${lang}`,
+      url: `https://api.mangadex.org/manga?title=${encodeURIComponent(query)}&limit=20&offset=${offset}&translatedLanguage[]=${lang}&includes[]=cover_art`,
     };
   },
   detailRequest(mangaId) {
@@ -17,6 +17,7 @@ const source = {
     };
   },
   chaptersRequest(mangaId) {
+    // lang not parameterized — Swift protocol passes only mangaId; use source.langs[0]
     return {
       url: `https://api.mangadex.org/manga/${mangaId}/feed?translatedLanguage[]=en&order[chapter]=desc&limit=96`,
     };
