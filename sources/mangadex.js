@@ -1,7 +1,7 @@
 const source = {
   id: 'mangadex',
   name: 'MangaDex',
-  version: '1.0.2',
+  version: '1.0.3',
   langs: ['en'],
   nsfw: false,
 
@@ -20,7 +20,7 @@ const source = {
   chaptersRequest(mangaId) {
     // lang not parameterized — Swift protocol passes only mangaId; use source.langs[0]
     return {
-      url: `https://api.mangadex.org/manga/${mangaId}/feed?translatedLanguage[]=en&order[chapter]=desc&limit=96`,
+      url: `https://api.mangadex.org/manga/${mangaId}/feed?translatedLanguage[]=en&order[chapter]=desc&limit=500`,
     };
   },
   pagesRequest(chapterId) {
