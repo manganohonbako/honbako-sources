@@ -73,7 +73,7 @@ describe('request builders', () => {
     expect(req.url).toContain('https://api.mangadex.org/manga/manga-id-abc/feed');
     expect(req.url).toContain('translatedLanguage[]=en');
     expect(req.url).toContain('order[chapter]=desc');
-    expect(req.url).toContain('limit=96');
+    expect(req.url).toContain('limit=500');
   });
 
   test('pagesRequest uses at-home endpoint', () => {
