@@ -97,7 +97,17 @@ describe('parsers', () => {
     expect(results[0].coverUrl).toBe('https://static.mfcdn.nl/6a68/i/5/51/51360d75d5ffa0cc3234dc79d9c36d26.jpg');
   });
 
-  test('parseDetail placeholder', () => { expect(true).toBe(true); });
+  test('parseDetail returns { id, title, synopsis, author, status, tags }', () => {
+    const detail = JSON.parse(source.parseDetail(fixture('mangafire-detail.json')));
+    expect(detail.id).toBe('narutoo.l33');
+    expect(detail.title).toBe('Naruto');
+    expect(detail.synopsis).toContain("Despite Naruto Uzumaki");
+    expect(detail.author).toBe('Masashi Kishimoto');
+    expect(detail.status).toBe('completed');
+    expect(Array.isArray(detail.tags)).toBe(true);
+    expect(detail.tags).toContain('Action');
+    expect(detail.tags).toContain('Shounen');
+  });
   test('parseChapters placeholder', () => { expect(true).toBe(true); });
   test('parsePages placeholder', () => { expect(true).toBe(true); });
 });

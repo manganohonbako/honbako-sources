@@ -163,7 +163,57 @@ const source = {
     }
     return JSON.stringify(results);
   },
-  parseDetail(body) { return '{}'; },
+  parseDetail(body) {
+    var idMatch = body.match(/<link rel="canonical" href="https:\/\/mangafire\.to\/manga\/([^"]+)">/);
+    var titleMatch = body.match(/<h1[^>]*>([^<]+)<\/h1>/);
+
+    var synopsis = '';
+    var synIdx = body.indexOf('id="synopsis"');
+    if (synIdx >= 0) {
+      var mcStart = body.indexOf('class="modal-content', synIdx);
+      var gt = body.indexOf('>', mcStart);
+      var block = body.slice(gt + 1, gt + 3000);
+      synopsis = block.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    }
+
+    var author = null;
+    var authIdx = body.indexOf('Author:</span>');
+    if (authIdx >= 0) {
+      var authMatch = body.slice(authIdx, authIdx + 300).match(/<a[^>]+>([^<]+)<\/a>/);
+      if (authMatch) author = authMatch[1];
+    }
+
+    var status = 'unknown';
+    var infoIdx = body.indexOf('<div class="info">');
+    if (infoIdx >= 0) {
+      var pMatch = body.slice(infoIdx, infoIdx + 200).match(/<p>([^<]+)<\/p>/);
+      if (pMatch) {
+        var s = pMatch[1].toLowerCase().trim();
+        if (s === 'completed') status = 'completed';
+        else if (s === 'releasing') status = 'ongoing';
+        else if (s === 'on_hiatus') status = 'hiatus';
+        else if (s === 'discontinued') status = 'cancelled';
+      }
+    }
+
+    var tags = [];
+    var genreIdx = body.indexOf('Genres:</span>');
+    if (genreIdx >= 0) {
+      var genreBlock = body.slice(genreIdx, genreIdx + 500);
+      var tagRe = /<a href="\/genre\/[^"]+">([^<]+)<\/a>/g;
+      var tm;
+      while ((tm = tagRe.exec(genreBlock)) !== null) tags.push(tm[1]);
+    }
+
+    return JSON.stringify({
+      id: idMatch ? idMatch[1] : null,
+      title: titleMatch ? titleMatch[1] : null,
+      synopsis: synopsis,
+      author: author,
+      status: status,
+      tags: tags,
+    });
+  },
   parseChapters(body) { return '[]'; },
   parsePages(body) { return '[]'; },
 };
