@@ -88,7 +88,15 @@ describe('request builders', () => {
 });
 
 describe('parsers', () => {
-  test('parseSearch placeholder', () => { expect(true).toBe(true); });
+  test('parseSearch returns array of { id, title, coverUrl }', () => {
+    const results = JSON.parse(source.parseSearch(fixture('mangafire-search.json')));
+    expect(Array.isArray(results)).toBe(true);
+    expect(results).toHaveLength(29);
+    expect(results[0].id).toBe('narutoo.l33');
+    expect(results[0].title).toBe('Naruto');
+    expect(results[0].coverUrl).toBe('https://static.mfcdn.nl/6a68/i/5/51/51360d75d5ffa0cc3234dc79d9c36d26.jpg');
+  });
+
   test('parseDetail placeholder', () => { expect(true).toBe(true); });
   test('parseChapters placeholder', () => { expect(true).toBe(true); });
   test('parsePages placeholder', () => { expect(true).toBe(true); });

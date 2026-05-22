@@ -145,7 +145,24 @@ const source = {
       headers: { 'X-Requested-With': 'XMLHttpRequest' },
     };
   },
-  parseSearch(body) { return '[]'; },
+  parseSearch(body) {
+    var results = [];
+    var parts = body.split('<div class="inner">');
+    for (var i = 1; i < parts.length; i++) {
+      var part = parts[i];
+      if (part.indexOf('href="/manga/') === -1) continue;
+      var idMatch = part.match(/href="\/manga\/([^"]+)"/);
+      var imgMatch = part.match(/<img src="([^"]+)"/);
+      var titleMatch = part.match(/href="\/manga\/[^"]+">([^<]+)<\/a>/);
+      if (!idMatch || !titleMatch) continue;
+      results.push({
+        id: idMatch[1],
+        title: titleMatch[1],
+        coverUrl: imgMatch ? imgMatch[1] : null,
+      });
+    }
+    return JSON.stringify(results);
+  },
   parseDetail(body) { return '{}'; },
   parseChapters(body) { return '[]'; },
   parsePages(body) { return '[]'; },
