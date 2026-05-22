@@ -4,7 +4,9 @@
     {
       "id": "mangadex",
       "name": "MangaDex",
-      "langs": ["en"],
+      "langs": [
+        "en"
+      ],
       "version": "1.0.3",
       "nsfw": false,
       "url": "https://manganohonbako.github.io/honbako-sources/sources/mangadex.js"
