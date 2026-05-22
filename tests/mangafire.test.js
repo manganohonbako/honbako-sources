@@ -108,6 +108,15 @@ describe('parsers', () => {
     expect(detail.tags).toContain('Action');
     expect(detail.tags).toContain('Shounen');
   });
-  test('parseChapters placeholder', () => { expect(true).toBe(true); });
+  test('parseChapters returns array of { id, title, number, lang, date }', () => {
+    const chapters = JSON.parse(source.parseChapters(fixture('mangafire-chapters.json')));
+    expect(Array.isArray(chapters)).toBe(true);
+    expect(chapters).toHaveLength(790);
+    expect(chapters[0].id).toBe('5355431');
+    expect(chapters[0].number).toBe('700.6');
+    expect(chapters[0].title).toContain('Side Story');
+    expect(chapters[0].lang).toBe('en');
+    expect(typeof chapters[0].date).toBe('string');
+  });
   test('parsePages placeholder', () => { expect(true).toBe(true); });
 });

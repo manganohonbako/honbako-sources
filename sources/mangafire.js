@@ -214,6 +214,26 @@ const source = {
       tags: tags,
     });
   },
-  parseChapters(body) { return '[]'; },
+  parseChapters(body) {
+    var html = JSON.parse(body).result.html;
+    var chapters = [];
+    var liRe = /<li\b[^>]*>([\s\S]*?)<\/li>/g;
+    var lm;
+    while ((lm = liRe.exec(html)) !== null) {
+      var li = lm[1];
+      var idMatch = li.match(/data-id="([^"]+)"/);
+      var numMatch = li.match(/data-number="([^"]+)"/);
+      var titleMatch = li.match(/\btitle="([^"]*)"/);
+      if (!idMatch || !numMatch) continue;
+      chapters.push({
+        id: idMatch[1],
+        number: numMatch[1],
+        title: titleMatch ? _decodeHtml(titleMatch[1]) : '',
+        lang: 'en',
+        date: '',
+      });
+    }
+    return JSON.stringify(chapters);
+  },
   parsePages(body) { return '[]'; },
 };
