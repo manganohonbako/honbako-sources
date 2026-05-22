@@ -97,6 +97,13 @@ describe('parsers', () => {
     expect(results[0].coverUrl).toBe('https://static.mfcdn.nl/6a68/i/5/51/51360d75d5ffa0cc3234dc79d9c36d26.jpg');
   });
 
+  test('parseSearch decodes HTML entities in titles', () => {
+    const results = JSON.parse(source.parseSearch(fixture('mangafire-search.json')));
+    const entityTitle = results.find(r => r.title.includes("Konoha's Story"));
+    expect(entityTitle).toBeDefined();
+    expect(entityTitle.title).not.toContain('&#039;');
+  });
+
   test('parseDetail returns { id, title, synopsis, author, status, tags }', () => {
     const detail = JSON.parse(source.parseDetail(fixture('mangafire-detail.json')));
     expect(detail.id).toBe('narutoo.l33');

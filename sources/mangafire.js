@@ -157,7 +157,7 @@ const source = {
       if (!idMatch || !titleMatch) continue;
       results.push({
         id: idMatch[1],
-        title: titleMatch[1],
+        title: _decodeHtml(titleMatch[1]),
         coverUrl: imgMatch ? imgMatch[1] : null,
       });
     }
@@ -166,6 +166,7 @@ const source = {
   parseDetail(body) {
     var idMatch = body.match(/<link rel="canonical" href="https:\/\/mangafire\.to\/manga\/([^"]+)">/);
     var titleMatch = body.match(/<h1[^>]*>([^<]+)<\/h1>/);
+    var title = titleMatch ? _decodeHtml(titleMatch[1]) : null;
 
     var synopsis = '';
     var synIdx = body.indexOf('id="synopsis"');
@@ -207,7 +208,7 @@ const source = {
 
     return JSON.stringify({
       id: idMatch ? idMatch[1] : null,
-      title: titleMatch ? titleMatch[1] : null,
+      title: title,
       synopsis: synopsis,
       author: author,
       status: status,
