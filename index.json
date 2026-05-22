@@ -8,6 +8,14 @@
       "version": "1.0.3",
       "nsfw": false,
       "url": "https://manganohonbako.github.io/honbako-sources/sources/mangadex.js"
+    },
+    {
+      "id": "mangafire",
+      "name": "MangaFire",
+      "langs": ["en"],
+      "version": "1.0.0",
+      "nsfw": false,
+      "url": "https://manganohonbako.github.io/honbako-sources/sources/mangafire.js"
     }
   ]
 }
