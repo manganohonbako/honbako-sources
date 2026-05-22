@@ -118,5 +118,11 @@ describe('parsers', () => {
     expect(chapters[0].lang).toBe('en');
     expect(typeof chapters[0].date).toBe('string');
   });
-  test('parsePages placeholder', () => { expect(true).toBe(true); });
+  test('parsePages returns array of URL strings', () => {
+    const urls = JSON.parse(source.parsePages(fixture('mangafire-pages.json')));
+    expect(Array.isArray(urls)).toBe(true);
+    expect(urls).toHaveLength(50);
+    expect(urls[0]).toBe('https://l1n.mfcdn1.xyz/mf/12a3db61fa0a4f41a692795a92a7ee0f9a30a9475da7beb2541e2dfab23ccb812a5cd519486725eaff/h/p.jpg');
+    expect(typeof urls[0]).toBe('string');
+  });
 });

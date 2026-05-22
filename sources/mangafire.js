@@ -235,5 +235,13 @@ const source = {
     }
     return JSON.stringify(chapters);
   },
-  parsePages(body) { return '[]'; },
+  parsePages(body) {
+    var images = JSON.parse(body).result.images;
+    var urls = images.map(function(img) {
+      var url = img[0];
+      var offset = img[2];
+      return offset > 0 ? url + '#scrambled_' + offset : url;
+    });
+    return JSON.stringify(urls);
+  },
 };
