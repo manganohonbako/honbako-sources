@@ -174,7 +174,12 @@ const source = {
       var mcStart = body.indexOf('class="modal-content', synIdx);
       var gt = body.indexOf('>', mcStart);
       var block = body.slice(gt + 1, gt + 3000);
-      synopsis = block.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      synopsis = block
+        .replace(/<script[^>]*>[\s\S]*?<\/script>/gi, '')
+        .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
     }
 
     var author = null;

@@ -13,7 +13,7 @@
       "id": "mangafire",
       "name": "MangaFire",
       "langs": ["en"],
-      "version": "1.0.0",
+      "version": "1.0.1",
       "nsfw": false,
       "url": "https://manganohonbako.github.io/honbako-sources/sources/mangafire.js"
     }
