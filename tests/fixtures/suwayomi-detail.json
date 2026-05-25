@@ -1,12 +1,13 @@
 {
-  "id": 1,
-  "title": "Naruto",
-  "author": "Masashi Kishimoto",
-  "description": "A story about a ninja who wants to be Hokage.",
-  "genre": ["Action", "Adventure", "Shounen"],
-  "status": "Completed",
-  "thumbnailUrl": "http://localhost:4567/api/v1/manga/1/thumbnail",
-  "inLibrary": false,
-  "initialized": true,
-  "sourceId": "1998944621602463790"
+  "data": {
+    "manga": {
+      "id": 1,
+      "title": "Naruto",
+      "author": "Masashi Kishimoto",
+      "description": "A story about a ninja who wants to be Hokage.",
+      "genre": ["Action", "Adventure", "Shounen"],
+      "status": "Completed",
+      "thumbnailUrl": "http://localhost:4567/api/v1/manga/1/thumbnail"
+    }
+  }
 }
