@@ -2,6 +2,9 @@
   "env": {
     "es2020": true
   },
+  "globals": {
+    "__config": "readonly"
+  },
   "parserOptions": {
     "ecmaVersion": 2020
   },
