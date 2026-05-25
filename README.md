@@ -2,6 +2,10 @@
 
 Official source extensions for [Honbako](https://github.com/manganohonbako/honbako), a native iOS/iPadOS manga reader.
 
+## Disclaimer
+
+Honbako and honbako-sources do not host, store, or distribute any manga content. Sources are JavaScript modules that build HTTP requests and parse responses from third-party websites. All content is fetched directly from those third-party sites by the user's device. The maintainers of this repository are not responsible for the content served by third-party sources.
+
 ## Add this repo to Honbako
 
 In the app: **Settings → Repositories → Add** and paste:
