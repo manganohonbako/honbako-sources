@@ -95,7 +95,7 @@ const source = {
     return JSON.stringify(
       data.chapters.nodes.map(c => ({
         id: String(c.id),
-        title: c.name || '',
+        title: (c.name || '').replace(/^(Vol\.?\s*\d[\d.]*\s*)?(Ch(apter)?\.?\s*[\d.]+\s*)([-:]\s*)?/i, '').trim(),
         number: String(c.chapterNumber ?? ''),
         lang: 'en',
         date: (() => { try { const ms = Number(c.uploadDate); return ms > 0 ? new Date(ms).toISOString() : ''; } catch (e) { return ''; } })(),
