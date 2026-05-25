@@ -38,15 +38,27 @@ describe('shape', () => {
 });
 
 describe('request builders', () => {
-  test('searchRequest builds correct URL with encoded query', () => {
+  test('searchRequest posts to /api/graphql with title filter', () => {
     const req = source.searchRequest('naruto uzumaki', 1, 'en');
-    expect(req).toHaveProperty('url');
-    expect(req.url).toBe('http://localhost:4567/api/v1/manga?searchTerm=naruto%20uzumaki&pageNum=1');
+    expect(req.url).toBe('http://localhost:4567/api/graphql');
+    expect(req.headers['Content-Type']).toBe('application/json');
+    const body = JSON.parse(req.body);
+    expect(typeof body.query).toBe('string');
+    expect(body.variables.filter).toEqual([{ title: { includesInsensitive: 'naruto uzumaki' } }]);
+    expect(body.variables.offset).toBe(0);
+    expect(body.variables.first).toBe(20);
   });
 
-  test('searchRequest uses page number correctly', () => {
-    const req = source.searchRequest('berserk', 3, 'en');
-    expect(req.url).toContain('pageNum=3');
+  test('searchRequest page 2 uses offset 20', () => {
+    const req = source.searchRequest('berserk', 2, 'en');
+    const body = JSON.parse(req.body);
+    expect(body.variables.offset).toBe(20);
+  });
+
+  test('searchRequest empty query sends empty filter array', () => {
+    const req = source.searchRequest('', 1, 'en');
+    const body = JSON.parse(req.body);
+    expect(body.variables.filter).toEqual([]);
   });
 
   test('searchRequest strips trailing slash from baseURL', () => {
@@ -62,19 +74,25 @@ describe('request builders', () => {
     expect(req.url).toContain('localhost:4567/api');
   });
 
-  test('detailRequest builds correct URL', () => {
+  test('detailRequest posts correct mangaId variable', () => {
     const req = source.detailRequest('1');
-    expect(req.url).toBe('http://localhost:4567/api/v1/manga/1');
+    expect(req.url).toBe('http://localhost:4567/api/graphql');
+    const body = JSON.parse(req.body);
+    expect(body.variables.id).toBe(1);
   });
 
-  test('chaptersRequest builds correct URL with onlineFetch=false', () => {
+  test('chaptersRequest posts correct mangaId variable', () => {
     const req = source.chaptersRequest('1');
-    expect(req.url).toBe('http://localhost:4567/api/v1/manga/1/chapters?onlineFetch=false');
+    expect(req.url).toBe('http://localhost:4567/api/graphql');
+    const body = JSON.parse(req.body);
+    expect(body.variables.mangaId).toBe(1);
   });
 
-  test('pagesRequest builds correct URL', () => {
+  test('pagesRequest posts correct chapterId variable', () => {
     const req = source.pagesRequest('42');
-    expect(req.url).toBe('http://localhost:4567/api/v1/chapter/42');
+    expect(req.url).toBe('http://localhost:4567/api/graphql');
+    const body = JSON.parse(req.body);
+    expect(body.variables.id).toBe(42);
   });
 });
 
@@ -88,6 +106,14 @@ describe('parsers', () => {
     expect(results[0].coverUrl).toBe('http://localhost:4567/api/v1/manga/1/thumbnail');
     expect(results[1].id).toBe('2');
     expect(results[1].title).toBe('Berserk');
+  });
+
+  test('parseSearch prefixes relative thumbnailUrl with baseURL', () => {
+    const body = JSON.stringify({ data: { mangas: { nodes: [
+      { id: 3, title: 'Test', thumbnailUrl: '/api/v1/manga/3/thumbnail' }
+    ] } } });
+    const results = JSON.parse(source.parseSearch(body));
+    expect(results[0].coverUrl).toBe('http://localhost:4567/api/v1/manga/3/thumbnail');
   });
 
   test('parseDetail returns { id, title, synopsis, author, status, tags }', () => {
@@ -108,13 +134,13 @@ describe('parsers', () => {
     expect(chapters).toHaveLength(1);
     expect(chapters[0].id).toBe('42');
     expect(chapters[0].title).toBe('Chapter 1: Enter Naruto Uzumaki!');
-    expect(chapters[0].number).toBe(1.0);
+    expect(chapters[0].number).toBe('1');
     expect(chapters[0].lang).toBe('en');
     expect(typeof chapters[0].date).toBe('string');
     expect(chapters[0].date).not.toBe('');
   });
 
-  test('parsePages returns correct page URLs from chapter.id and pageCount', () => {
+  test('parsePages returns full page URLs prefixed with baseURL', () => {
     const urls = JSON.parse(source.parsePages(fixture('suwayomi-pages.json')));
     expect(Array.isArray(urls)).toBe(true);
     expect(urls).toHaveLength(3);
