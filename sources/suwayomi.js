@@ -1,7 +1,7 @@
 const source = {
   id: 'suwayomi',
   name: 'Suwayomi',
-  version: '1.0.0',
+  version: '2.0.0',
   langs: ['en'],
   nsfw: false,
   allowHTTP: true,
@@ -10,28 +10,60 @@ const source = {
     return (__config.baseURL || '').replace(/\/$/, '');
   },
 
-  searchRequest(query, page) {
+  _gql(query, variables) {
     return {
-      url: `${this._base()}/api/v1/manga?searchTerm=${encodeURIComponent(query)}&pageNum=${page}`,
+      url: `${this._base()}/api/graphql`,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ query, variables }),
     };
   },
 
+  searchRequest(query, page) {
+    const filter = query ? [{ title: { includesInsensitive: query } }] : [];
+    const offset = (page - 1) * 20;
+    return this._gql(
+      `query SearchManga($filter: [MangaFilterInput!], $first: Int, $offset: Int) {
+        mangas(condition: {inLibrary: true}, filter: {and: $filter}, first: $first, offset: $offset) {
+          nodes { id title thumbnailUrl }
+        }
+      }`,
+      { filter, first: 20, offset }
+    );
+  },
+
   detailRequest(mangaId) {
-    return { url: `${this._base()}/api/v1/manga/${mangaId}` };
+    return this._gql(
+      `query GetManga($id: Int!) {
+        manga(id: $id) { id title description author status genre thumbnailUrl }
+      }`,
+      { id: parseInt(mangaId, 10) }
+    );
   },
 
   chaptersRequest(mangaId) {
-    return { url: `${this._base()}/api/v1/manga/${mangaId}/chapters?onlineFetch=false` };
+    return this._gql(
+      `query GetChapters($mangaId: Int!) {
+        chapters(condition: {mangaId: $mangaId}, orderBy: SOURCE_ORDER, orderByType: DESC) {
+          nodes { id name chapterNumber uploadDate }
+        }
+      }`,
+      { mangaId: parseInt(mangaId, 10) }
+    );
   },
 
   pagesRequest(chapterId) {
-    return { url: `${this._base()}/api/v1/chapter/${chapterId}` };
+    return this._gql(
+      `mutation GetPages($id: Int!) {
+        fetchChapterPages(input: {chapterId: $id}) { pages }
+      }`,
+      { id: parseInt(chapterId, 10) }
+    );
   },
 
   parseSearch(body) {
-    const { mangaList } = JSON.parse(body);
+    const { data } = JSON.parse(body);
     return JSON.stringify(
-      mangaList.map(m => ({
+      data.mangas.nodes.map(m => ({
         id: String(m.id),
         title: m.title,
         coverUrl: m.thumbnailUrl || null,
@@ -40,7 +72,8 @@ const source = {
   },
 
   parseDetail(body) {
-    const m = JSON.parse(body);
+    const { data } = JSON.parse(body);
+    const m = data.manga;
     return JSON.stringify({
       id: String(m.id),
       title: m.title,
@@ -52,9 +85,9 @@ const source = {
   },
 
   parseChapters(body) {
-    const { chapters } = JSON.parse(body);
+    const { data } = JSON.parse(body);
     return JSON.stringify(
-      chapters.map(c => ({
+      data.chapters.nodes.map(c => ({
         id: String(c.id),
         title: c.name || '',
         number: c.chapterNumber,
@@ -65,12 +98,8 @@ const source = {
   },
 
   parsePages(body) {
-    const { chapter } = JSON.parse(body);
+    const { data } = JSON.parse(body);
     const base = this._base();
-    const pages = [];
-    for (let i = 0; i < chapter.pageCount; i++) {
-      pages.push(`${base}/api/v1/chapter/${chapter.id}/page/${i}`);
-    }
-    return JSON.stringify(pages);
+    return JSON.stringify(data.fetchChapterPages.pages.map(p => `${base}${p}`));
   },
 };

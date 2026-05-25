@@ -1,20 +1,18 @@
 {
-  "mangaList": [
-    {
-      "id": 1,
-      "title": "Naruto",
-      "thumbnailUrl": "http://localhost:4567/api/v1/manga/1/thumbnail",
-      "initialized": true,
-      "sourceId": "1998944621602463790"
-    },
-    {
-      "id": 2,
-      "title": "Berserk",
-      "thumbnailUrl": "http://localhost:4567/api/v1/manga/2/thumbnail",
-      "initialized": true,
-      "sourceId": "1998944621602463790"
+  "data": {
+    "mangas": {
+      "nodes": [
+        {
+          "id": 1,
+          "title": "Naruto",
+          "thumbnailUrl": "http://localhost:4567/api/v1/manga/1/thumbnail"
+        },
+        {
+          "id": 2,
+          "title": "Berserk",
+          "thumbnailUrl": "http://localhost:4567/api/v1/manga/2/thumbnail"
+        }
+      ]
     }
-  ],
-  "total": 2,
-  "hasNextPage": false
+  }
 }
