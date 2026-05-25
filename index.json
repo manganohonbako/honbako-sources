@@ -4,10 +4,29 @@
     {
       "id": "mangadex",
       "name": "MangaDex",
-      "langs": ["en"],
-      "version": "1.0.0",
+      "langs": [
+        "en"
+      ],
+      "version": "1.0.3",
       "nsfw": false,
       "url": "https://manganohonbako.github.io/honbako-sources/sources/mangadex.js"
+    },
+    {
+      "id": "suwayomi",
+      "name": "Suwayomi",
+      "langs": [
+        "en"
+      ],
+      "version": "1.0.0",
+      "nsfw": false,
+      "url": "https://manganohonbako.github.io/honbako-sources/sources/suwayomi.js",
+      "configFields": [
+        {
+          "key": "baseURL",
+          "label": "Server URL",
+          "required": true
+        }
+      ]
     }
   ]
 }

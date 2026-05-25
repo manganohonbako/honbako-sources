@@ -2,6 +2,10 @@
 
 Official source extensions for [Honbako](https://github.com/manganohonbako/honbako), a native iOS/iPadOS manga reader.
 
+## Disclaimer
+
+Honbako and honbako-sources do not host, store, or distribute any manga content. Sources are JavaScript modules that build HTTP requests and parse responses from third-party websites. All content is fetched directly from those third-party sites by the user's device. The maintainers of this repository are not responsible for the content served by third-party sources.
+
 ## Add this repo to Honbako
 
 In the app: **Settings → Repositories → Add** and paste:
@@ -12,8 +16,8 @@ https://manganohonbako.github.io/honbako-sources/index.json
 
 ## Contributing a new source
 
-1. Copy `sources/mangadex.js` as a starting point
-2. Implement all 8 interface methods (see [CLAUDE.md](CLAUDE.md))
+1. Copy `sources/example.js` as a starting point
+2. Implement all 8 interface methods
 3. Create fixture files in `tests/fixtures/` and a test file in `tests/`
 4. Add an entry to `index.json`
 5. Run `npm test && npm run lint` — both must pass
