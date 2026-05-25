@@ -133,7 +133,7 @@ describe('parsers', () => {
     expect(Array.isArray(chapters)).toBe(true);
     expect(chapters).toHaveLength(1);
     expect(chapters[0].id).toBe('42');
-    expect(chapters[0].title).toBe('Chapter 1: Enter Naruto Uzumaki!');
+    expect(chapters[0].title).toBe('Enter Naruto Uzumaki!');
     expect(chapters[0].number).toBe('1');
     expect(chapters[0].lang).toBe('en');
     expect(typeof chapters[0].date).toBe('string');
