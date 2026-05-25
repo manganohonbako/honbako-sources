@@ -60,13 +60,19 @@ const source = {
     );
   },
 
+  _absoluteUrl(path) {
+    if (!path) return null;
+    if (path.startsWith('http://') || path.startsWith('https://')) return path;
+    return `${this._base()}${path}`;
+  },
+
   parseSearch(body) {
     const { data } = JSON.parse(body);
     return JSON.stringify(
       data.mangas.nodes.map(m => ({
         id: String(m.id),
         title: m.title,
-        coverUrl: m.thumbnailUrl || null,
+        coverUrl: this._absoluteUrl(m.thumbnailUrl),
       }))
     );
   },
@@ -90,7 +96,7 @@ const source = {
       data.chapters.nodes.map(c => ({
         id: String(c.id),
         title: c.name || '',
-        number: c.chapterNumber,
+        number: String(c.chapterNumber ?? ''),
         lang: 'en',
         date: c.uploadDate ? new Date(c.uploadDate).toISOString() : '',
       }))

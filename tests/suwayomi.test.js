@@ -108,6 +108,14 @@ describe('parsers', () => {
     expect(results[1].title).toBe('Berserk');
   });
 
+  test('parseSearch prefixes relative thumbnailUrl with baseURL', () => {
+    const body = JSON.stringify({ data: { mangas: { nodes: [
+      { id: 3, title: 'Test', thumbnailUrl: '/api/v1/manga/3/thumbnail' }
+    ] } } });
+    const results = JSON.parse(source.parseSearch(body));
+    expect(results[0].coverUrl).toBe('http://localhost:4567/api/v1/manga/3/thumbnail');
+  });
+
   test('parseDetail returns { id, title, synopsis, author, status, tags }', () => {
     const detail = JSON.parse(source.parseDetail(fixture('suwayomi-detail.json')));
     expect(detail.id).toBe('1');
@@ -126,7 +134,7 @@ describe('parsers', () => {
     expect(chapters).toHaveLength(1);
     expect(chapters[0].id).toBe('42');
     expect(chapters[0].title).toBe('Chapter 1: Enter Naruto Uzumaki!');
-    expect(chapters[0].number).toBe(1.0);
+    expect(chapters[0].number).toBe('1');
     expect(chapters[0].lang).toBe('en');
     expect(typeof chapters[0].date).toBe('string');
     expect(chapters[0].date).not.toBe('');
