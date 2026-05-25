@@ -16,6 +16,17 @@
       "version": "1.0.1",
       "nsfw": false,
       "url": "https://manganohonbako.github.io/honbako-sources/sources/mangafire.js"
+    },
+    {
+      "id": "suwayomi",
+      "name": "Suwayomi",
+      "langs": ["en"],
+      "version": "1.0.0",
+      "nsfw": false,
+      "url": "https://manganohonbako.github.io/honbako-sources/sources/suwayomi.js",
+      "configFields": [
+        { "key": "baseURL", "label": "Server URL", "required": true }
+      ]
     }
   ]
 }
