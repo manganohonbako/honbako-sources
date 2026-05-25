@@ -1,0 +1,20 @@
+{
+  "chapter": {
+    "id": 42,
+    "url": "/manga/naruto/1",
+    "name": "Chapter 1: Enter Naruto Uzumaki!",
+    "uploadDate": 1065024000000,
+    "chapterNumber": 1.0,
+    "scanlator": null,
+    "mangaId": 1,
+    "read": false,
+    "bookmarked": false,
+    "lastPageRead": 0,
+    "lastReadAt": 0,
+    "index": 1,
+    "fetchedAt": 1000000,
+    "realUrl": null,
+    "downloaded": false,
+    "pageCount": 3
+  }
+}
