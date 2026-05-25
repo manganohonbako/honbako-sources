@@ -140,6 +140,14 @@ describe('parsers', () => {
     expect(chapters[0].date).not.toBe('');
   });
 
+  test('parseChapters returns empty date for Long.MAX_VALUE sentinel uploadDate', () => {
+    const body = JSON.stringify({ data: { chapters: { nodes: [
+      { id: 1, name: 'Ch.1', chapterNumber: 1.0, uploadDate: '9223372036854775807' }
+    ] } } });
+    const chapters = JSON.parse(source.parseChapters(body));
+    expect(chapters[0].date).toBe('');
+  });
+
   test('parsePages returns full page URLs prefixed with baseURL', () => {
     const urls = JSON.parse(source.parsePages(fixture('suwayomi-pages.json')));
     expect(Array.isArray(urls)).toBe(true);
