@@ -1,7 +1,7 @@
 const source = {
   id: 'suwayomi',
   name: 'Suwayomi',
-  version: '2.0.2',
+  version: '2.0.3',
   langs: ['en'],
   nsfw: false,
   allowHTTP: true,
@@ -98,7 +98,7 @@ const source = {
         title: c.name || '',
         number: String(c.chapterNumber ?? ''),
         lang: 'en',
-        date: (() => { const ms = Number(c.uploadDate); return Number.isFinite(ms) && ms > 0 ? new Date(ms).toISOString() : ''; })(),
+        date: (() => { try { const ms = Number(c.uploadDate); return ms > 0 ? new Date(ms).toISOString() : ''; } catch (e) { return ''; } })(),
       }))
     );
   },
