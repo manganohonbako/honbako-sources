@@ -98,7 +98,7 @@ const source = {
         title: c.name || '',
         number: String(c.chapterNumber ?? ''),
         lang: 'en',
-        date: c.uploadDate ? new Date(c.uploadDate).toISOString() : '',
+        date: c.uploadDate ? new Date(Number(c.uploadDate)).toISOString() : '',
       }))
     );
   },
